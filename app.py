@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 
 app = Flask(__name__)
 
@@ -9,6 +9,10 @@ def login():
 @app.route('/wp')
 def wp():
     return render_template('wp.html')
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    return redirect(url_for('wp'))
 
 
 if __name__ == '__main__':

@@ -13,16 +13,18 @@ table = db['userplay']
 
 @app.route('/', methods=['GET'])
 def login():
-    return render_template('login.html')
+    if table.count() >= 5:
+        table.delete()
+    return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    time =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+    time =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     name = request.form['name']
     message = request.form['message']
 
     if len(name) == 0 and len(message) == 0:
-        return render_template('login.html', hint='!!!至少其中一個欄位要有東西!!!')
+        return render_template('index.html', hint='!!!至少其中一個欄位要有東西!!!')
     
     if len(name) == 0:
         name = 'NONE'
@@ -37,8 +39,9 @@ def submit():
 @app.route('/up', methods=['GET'])
 def up():
     datas = table.find()
+    total = table.count()
 
-    return render_template('up.html', datas=datas)
+    return render_template('up.html', datas=datas, total=total)
 
 #@app.route('/submit', methods=['POST'])
 #def submit():
@@ -59,11 +62,6 @@ def up():
     #結束遊戲>紀錄>回傳紀錄關卡>紀錄回傳到up
 #    return  render_template('up.html')
 
-for i in table.all():
-    print(i)
-
-if table.count() == 5:
-    table.delete()
 
 if __name__ == '__main__':
     app.run()

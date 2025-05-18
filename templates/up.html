@@ -7,7 +7,14 @@
 </head>
 
 <body>
-    <h1>遊玩紀錄</h1>
+    <a href="/" style="text-decoration: none; color: blue;">回首頁</a>
+    <h1 style="text-align: center;">遊玩紀錄</h1>
+
+    {% for data in datas %}
+    <h2>{{ data['name'] }}</h2>
+    <p>{{ data['message'] }}</p>
+    <hr>
+    {% endfor%}
 </body>
 
 </html>

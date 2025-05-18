@@ -7,17 +7,21 @@
 </head>
 
 <body>
-    <h1>作業 O_o</h1>
+    <a href="/up" style="text-decoration: none; color: blue; text-align: left;">遊玩紀錄</a>
+    <div style="text-align: center;">
+        <h1>o_O這是一個以Flask為主，含有DB的作業 O_o</h1>
+        <p>按下Submit後會將資料傳送至up.html，同時開啟wp.html的遊戲頁面</p>
 
-    <form action='/submit' method='post'>
-        <label for='name'>Name</label>
-        <input name='name' type='text'></input>
+        <form action='/submit' method='post'>
+            <label for='name'>Name</label>
+            <input name='name' type='text'></input>
 
-        <label for='message'>Message</label>
-        <input name='message' type='text'></input>
+            <label for='message'>Message</label>
+            <input name='message' type='text'></input>
 
-        <input type='submit'></input>
-    </form>
+            <input type='submit' value="Submit"></input>
+        </form>
+    </div>
 </body>
 
 </html>

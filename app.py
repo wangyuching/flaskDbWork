@@ -10,8 +10,6 @@ table = db['userplay']
 
 @app.route('/', methods=['GET'])
 def login():
-    if table.count() >= 5:
-        table.delete()
     return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
@@ -35,6 +33,13 @@ def finish():
     temp_data = session.get('temp_data',{})
     temp_data['fl'] = finishLevel
     session['temp_data'] = temp_data
+
+    if table.count() >=3:#待改
+        min_level = min([int(i['fl']) for i in table.all()])
+        min_levels = [i for i in table.all() if int(i['fl']) == min_level]
+        oldest = min(min_levels, key=lambda x: x['st'])
+        table.delete(id=oldest['id'])
+        
 
     table.insert(temp_data)
 

@@ -3,12 +3,12 @@
 
 <head>
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
 </head>
 
-<body>
+<body style="background-color: rgb(209, 235, 255);;">
     <a href="/" style="text-decoration: none; color: blue;">回首頁</a>
-    <h1 style="text-align: center;">紀錄</h1>
+    <h1 style="text-align: center;">紀錄:{{ total }}</h1>
+    <p>!!!紀錄到達5筆時會全部刪除並重新計算!!!</p>
 
     {% for data in datas %}
     <h2 style="font-family:Arial, Helvetica, sans-serif">{{ data['st'] }} </h2>

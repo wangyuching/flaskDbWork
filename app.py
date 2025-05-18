@@ -13,11 +13,13 @@ table = db['userplay']
 
 @app.route('/', methods=['GET'])
 def login():
+    if table.count() >= 5:
+        table.delete()
     return render_template('login.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    time =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+    time =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     name = request.form['name']
     message = request.form['message']
 
@@ -37,33 +39,9 @@ def submit():
 @app.route('/up', methods=['GET'])
 def up():
     datas = table.find()
+    total = table.count()
 
-    return render_template('up.html', datas=datas)
-
-#@app.route('/submit', methods=['POST'])
-#def submit():
-    # 傳到up.html
-#    return render_template('Wp.html')
-
-#@app.route('/wp', methods=['GET'])
-#def login():
-#    return render_template('wp.html')
-
-#@app.route('/wp', methods=['POST'])
-#def wp():
-    #結束遊戲>紀錄>回傳紀錄關卡>紀錄回傳到up
-#    return redirect(url_for('up'))
-
-#@app.route('/up', methods=['GET'])
-#def wp():
-    #結束遊戲>紀錄>回傳紀錄關卡>紀錄回傳到up
-#    return  render_template('up.html')
-
-for i in table.all():
-    print(i)
-
-if table.count() == 5:
-    table.delete()
+    return render_template('up.html', datas=datas, total=total)
 
 if __name__ == '__main__':
     app.run()

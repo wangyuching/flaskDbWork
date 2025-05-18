@@ -13,22 +13,16 @@
     <div id="wp">
         <h1 class="WPMade">Water Puzzle</h1>
         <div id="game-info">
-            <p>關卡 : <span id="level-count">1</span></p>
-            <p>完成的試管：<span id="completed-tubes-count">0</span></p>
-            <label for="level-select">選擇關卡</label>
-            <select id="level-select">
-                <option value="1">Level 1</option>
-                <option value="2">Level 2</option>
-                <option value="3">Level 3</option>
-                <option value="4">Level 4</option>
-                <option value="5">Level 5</option>
-                <option value="6">Level 6</option>
-                <option value="7">Level 7</option>
-                <option value="8">Level 8</option>
-                <option value="9">Level 9</option>
-                <option value="10">Level 10</option>
-            </select>
-            <button id="play-button">Play</button>
+            <p>總共有20關<br>
+                目前關卡 : <span id="level-count" style="font-family:Arial, Helvetica, sans-serif;">1</span>
+                <button id="play-button" style="margin-left: 20px;">Play</button><br>
+                完成的試管：<span id="completed-tubes-count">0</span>
+            </p>
+            <form action="/finish" method="post">
+                <p>完成的關卡：<span id="finish-level" name="finish-level">0</span></p>
+                <input type="hidden" id="finish-level-count" name="finish-level-count" value="0">
+                <button type="submit">不玩了</button>
+            </form>
         </div>
         <div id="game-container"></div>
     </div>

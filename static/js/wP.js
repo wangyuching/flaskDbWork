@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function chooseLevel(level) {
     levelCount = level;
     document.getElementById("level-count").textContent = levelCount;
-    document.getElementById("finish-level").textContent = finishLevel;
-    document.getElementById("finish-level-count").value = finishLevelCount;
+    document.getElementById("finish-level").textContent = finishLevelCount;
+    document.getElementById("finish-level-input").value = finishLevelCount;
   }
 
   function checkGameState() {
@@ -64,16 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (levelCount === 10) {
         alert("恭喜!你已經完成所有挑戰!!");
       } else {
-        finishLevel++;
         finishLevelCount++;
-        setTimeout(() => {
           levelCount++;
           document.getElementById("level-count").textContent = levelCount;
           document.getElementById("completed-tubes-count").textContent = 0;
           chooseLevel(levelCount);
           createTubes();
           fillTubes();
-        }, 1500);
       }
     }
   }

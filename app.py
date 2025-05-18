@@ -30,7 +30,7 @@ def submit():
 
 @app.route('/finish', methods=['POST'])
 def finish():
-    finishLevel = request.form.get('finish-level-count')
+    finishLevel = request.form.get('finish-level-input')
 
     temp_data = session.get('temp_data',{})
     temp_data['fl'] = finishLevel

@@ -15,7 +15,7 @@ table = db['userplay']
 def login():
     if table.count() >= 5:
         table.delete()
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -24,7 +24,7 @@ def submit():
     message = request.form['message']
 
     if len(name) == 0 and len(message) == 0:
-        return render_template('login.html', hint='!!!至少其中一個欄位要有東西!!!')
+        return render_template('index.html', hint='!!!至少其中一個欄位要有東西!!!')
     
     if len(name) == 0:
         name = 'NONE'

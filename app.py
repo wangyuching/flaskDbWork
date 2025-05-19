@@ -3,7 +3,7 @@ import datetime
 import dataset
 
 app = Flask(__name__)
-app.secret_key ='a'#亂數
+app.secret_key ='adgjlshkasdfghjkl'
 
 db = dataset.connect('sqlite:///file.db')
 table = db['userplay']
@@ -34,7 +34,7 @@ def finish():
     temp_data['fl'] = finishLevel
     session['temp_data'] = temp_data
 
-    if table.count() >=3:#待改
+    if table.count() >=5:
         min_level = min([int(i['fl']) for i in table.all()])
         min_levels = [i for i in table.all() if int(i['fl']) == min_level]
         oldest = min(min_levels, key=lambda x: x['st'])
@@ -48,8 +48,7 @@ def finish():
 @app.route('/up', methods=['GET'])
 def up():
     datas = table.find()
-    total = table.count()
-    return render_template('up.html', datas=datas, total=total)
+    return render_template('up.html', datas=datas)
 
 if __name__ == '__main__':
     app.run()

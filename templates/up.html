@@ -10,12 +10,14 @@
     <div id="text" style="line-height: 15px">
         <h1 style="text-align: center;">紀錄</h1>
 
-        {% for data in datas %}
-        <h2 style="font-family:Arial, Helvetica, sans-serif">{{ data['st'] }} </h2>
-        <h3 style="font-family:Arial, Helvetica, sans-serif">{{ data['n'] }}</h3>
-        <p style="font-family:Arial, Helvetica, sans-serif">完成{{ data['fl'] }}關</p>
-        <hr>
-        {% endfor%}
+            {% for data in datas %}        <div id="content" style="width: fit-content; margin: auto;padding: 20px; border-radius: 10px;">
+
+            <h2 style="font-family:Arial, Helvetica, sans-serif">{{ data['st'] }} </h2>
+            <h3 style="font-family:Arial, Helvetica, sans-serif">{{ data['n'] }}</h3>
+            <p style="font-family:Arial, Helvetica, sans-serif">完成{{ data['fl'] }}關</p>
+                   </div>
+<hr> 
+            {% endfor%}
     </div>
 </body>
 

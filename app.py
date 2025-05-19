@@ -23,6 +23,10 @@ def submit():
     if len(name) == 0:
         name = 'NONE'
 
+    exist = table.find_one(n=name)
+    if exist:
+        return render_template('index.html', hint='!!!名稱已存在，請重新輸入!!!')
+
     session['temp_data'] = {'st': time, 'n': name}
     return render_template('wp.html')
 
@@ -34,12 +38,14 @@ def finish():
     temp_data['fl'] = finishLevel
     session['temp_data'] = temp_data
 
+    all_data = list(table.all())
     if table.count() >=5:
-        min_level = min([int(i['fl']) for i in table.all()])
-        min_levels = [i for i in table.all() if int(i['fl']) == min_level]
-        oldest = min(min_levels, key=lambda x: x['st'])
-        table.delete(id=oldest['id'])
-        
+        max_level = max([int(i['fl']) for i in all_data])
+        max_level_records = [i for i in all_data if int(i['fl']) == max_level]
+        keep_record = max(max_level_records, key=lambda x: x['st'])
+        for record in all_data:
+            if record['id'] != keep_record['id']:
+                table.delete(id=record['id'])
 
     table.insert(temp_data)
 

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const gameContainer = document.getElementById("game-container");
   const playButton = document.getElementById("play-button");
-  const levelSelect = document.getElementById("level-select");
 
   const colors = [
     "red",
@@ -28,16 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const tubes = [];
   let selectedTube = null;
   let levelCount = 1;
+  let finishLevelCount = 0;
 
   function chooseLevel(level) {
     levelCount = level;
     document.getElementById("level-count").textContent = levelCount;
+    document.getElementById("finish-level").textContent = finishLevelCount;
+    document.getElementById("finish-level-input").value = finishLevelCount;
   }
-
-  levelSelect.addEventListener("change", (event) => {
-    const selectedLevel = parseInt(event.target.value, 10);
-    chooseLevel(selectedLevel);
-  });
 
   function checkGameState() {
     const allSameColor = (tube) => {
@@ -67,13 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (levelCount === 10) {
         alert("恭喜!你已經完成所有挑戰!!");
       } else {
-        alert("你已經完成本關卡!");
-        levelCount++;
-        document.getElementById("level-count").textContent = levelCount;
-        document.getElementById("completed-tubes-count").textContent = 0;
-        chooseLevel(levelCount);
-        createTubes();
-        fillTubes();
+        finishLevelCount++;
+          levelCount++;
+          document.getElementById("level-count").textContent = levelCount;
+          document.getElementById("completed-tubes-count").textContent = 0;
+          chooseLevel(levelCount);
+          createTubes();
+          fillTubes();
       }
     }
   }

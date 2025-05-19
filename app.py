@@ -1,67 +1,60 @@
-from flask import Flask
-from flask import request
-from flask import render_template
-from flask import redirect, url_for
+from flask import Flask, request, session, render_template, redirect, url_for
 import datetime
 import dataset
 
 app = Flask(__name__)
+app.secret_key ='adgjlshkasdfghjkl'
 
 db = dataset.connect('sqlite:///file.db')
-
 table = db['userplay']
 
 @app.route('/', methods=['GET'])
 def login():
-    if table.count() >= 5:
-        table.delete()
     return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
     time =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     name = request.form['name']
-    message = request.form['message']
 
-    if len(name) == 0 and len(message) == 0:
-        return render_template('index.html', hint='!!!至少其中一個欄位要有東西!!!')
+    if len(name) == 0:
+        return render_template('index.html', hint='!!!NAME!!!')
     
     if len(name) == 0:
         name = 'NONE'
 
-    if len(message) == 0:
-        message = 'LAZZY PEOPLE'
-        
-    data = dict(st=time,n=name,m=message)
-    table.insert(data)
+    exist = table.find_one(n=name)
+    if exist:
+        return render_template('index.html', hint='!!!名稱已存在，請重新輸入!!!')
+
+    session['temp_data'] = {'st': time, 'n': name}
+    return render_template('wp.html')
+
+@app.route('/finish', methods=['POST'])
+def finish():
+    finishLevel = request.form.get('finish-level-input')
+
+    temp_data = session.get('temp_data',{})
+    temp_data['fl'] = finishLevel
+    session['temp_data'] = temp_data
+
+    all_data = list(table.all())
+    if table.count() >=5:
+        max_level = max([int(i['fl']) for i in all_data])
+        max_level_records = [i for i in all_data if int(i['fl']) == max_level]
+        keep_record = max(max_level_records, key=lambda x: x['st'])
+        for record in all_data:
+            if record['id'] != keep_record['id']:
+                table.delete(id=record['id'])
+
+    table.insert(temp_data)
+
     return redirect(url_for('up'))
 
 @app.route('/up', methods=['GET'])
 def up():
     datas = table.find()
-    total = table.count()
-
-    return render_template('up.html', datas=datas, total=total)
-
-#@app.route('/submit', methods=['POST'])
-#def submit():
-    # 傳到up.html
-#    return render_template('Wp.html')
-
-#@app.route('/wp', methods=['GET'])
-#def login():
-#    return render_template('wp.html')
-
-#@app.route('/wp', methods=['POST'])
-#def wp():
-    #結束遊戲>紀錄>回傳紀錄關卡>紀錄回傳到up
-#    return redirect(url_for('up'))
-
-#@app.route('/up', methods=['GET'])
-#def wp():
-    #結束遊戲>紀錄>回傳紀錄關卡>紀錄回傳到up
-#    return  render_template('up.html')
-
+    return render_template('up.html', datas=datas)
 
 if __name__ == '__main__':
     app.run()

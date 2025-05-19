@@ -5,17 +5,18 @@
     <title>Home</title>
 </head>
 
-<body style="background-color: rgb(209, 235, 255);;">
+<body style="background-color: rgb(209, 235, 255);">
     <a href="/" style="text-decoration: none; color: blue;">回首頁</a>
-    <h1 style="text-align: center;">紀錄:{{ total }}</h1>
-    <p>!!!紀錄到達5筆時會全部刪除並重新計算!!!</p>
+    <div id="text" style="line-height: 15px">
+        <h1 style="text-align: center;">紀錄</h1>
 
-    {% for data in datas %}
-    <h2 style="font-family:Arial, Helvetica, sans-serif">{{ data['st'] }} </h2>
-    <h3 style="font-family:Arial, Helvetica, sans-serif">Name:{{ data['n'] }}</h3>
-    <p>Message:{{ data['m'] }}</p>
-    <hr>
-    {% endfor%}
+        {% for data in datas %}
+        <h2 style="font-family:Arial, Helvetica, sans-serif">{{ data['st'] }} </h2>
+        <h3 style="font-family:Arial, Helvetica, sans-serif">{{ data['n'] }}</h3>
+        <p style="font-family:Arial, Helvetica, sans-serif">完成{{ data['fl'] }}關</p>
+        <hr>
+        {% endfor%}
+    </div>
 </body>
 
 </html>

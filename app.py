@@ -1,12 +1,12 @@
-from flask import Flask, request, session, render_template, redirect, url_for
-import datetime
-import dataset
+from flask import Flask, request, session, render_template, redirect, url_for #模組
+import datetime #時間模組
+import dataset #資料庫模組
 
 app = Flask(__name__)
-app.secret_key ='adgjlshkasdfghjkl'
+app.secret_key ='adgjlshkasdfghjkl' #session密碼(隨便寫)
 
-db = dataset.connect('sqlite:///file.db')
-table = db['userplay']
+db = dataset.connect('sqlite:///file.db') #連接資料庫
+table = db['userplay'] #資料表名稱
 
 @app.route('/', methods=['GET'])
 def login():
@@ -19,9 +19,6 @@ def submit():
 
     if len(name) == 0:
         return render_template('index.html', hint='!!!NAME!!!')
-    
-    if len(name) == 0:
-        name = 'NONE'
 
     exist = table.find_one(n=name)
     if exist:

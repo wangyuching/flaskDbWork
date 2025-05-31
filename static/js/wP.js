@@ -61,16 +61,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       tubes.every((tube) => tube.childElementCount === 0 || allSameColor(tube))
     ) {
-      if (levelCount === 10) {
+      if (finishLevelCount === 10) {
         alert("恭喜!你已經完成所有挑戰!!");
       } else {
         finishLevelCount++;
-          levelCount++;
-          document.getElementById("level-count").textContent = levelCount;
-          document.getElementById("completed-tubes-count").textContent = 0;
-          chooseLevel(levelCount);
-          createTubes();
-          fillTubes();
+        levelCount++;
+        document.getElementById("level-count").textContent = levelCount;
+        document.getElementById("completed-tubes-count").textContent = 0;
+        chooseLevel(levelCount);
+        createTubes();
+        fillTubes();
       }
     }
   }

@@ -10,7 +10,8 @@
     <div id="text" style="line-height: 15px">
         <h1 style="text-align: center;">紀錄</h1>
 
-            {% for data in datas %}        <div id="content" style="width: fit-content; margin: auto;padding: 20px; border-radius: 10px;">
+            {% for data in datas %} <!-- Jinja2 語法。對 datas 進行迴圈，每次迴圈會把集合中的一個元素指定給 data -->
+            <div id="content" style="width: fit-content; margin: auto;padding: 20px; border-radius: 10px;">
 
             <h2 style="font-family:Arial, Helvetica, sans-serif">{{ data['st'] }} </h2>
             <h3 style="font-family:Arial, Helvetica, sans-serif">{{ data['n'] }}</h3>

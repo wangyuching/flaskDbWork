@@ -1,0 +1,8 @@
+1
+Flask:Python Web 應用框架，用來建立 Web 伺服器和處理 HTTP 請求。
+▼ 以下皆為Flask所提供
+request:取得用戶端送來的 HTTP 資料（如表單、查詢參數、檔案等）。
+session:儲存多個請求之間的資料（例如登入狀態），資料會儲存在瀏覽器的 Cookie 中。
+render_template:用來渲染（產生）HTML 模板，並回傳給用戶端。
+redirect:將用戶端重新導向到另一個 URL。
+url_for:根據函式名稱產生對應的 URL，方便管理路由。

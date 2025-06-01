@@ -17,14 +17,20 @@ url_for:根據函式名稱產生對應的 URL，方便管理路由。
 9 物件table = 取得或建立資料庫中的 userplay 這個資料表（table）。透過 table 這個物件來操作 userplay 資料表。
 
 11-13 讓使用者進入首頁時，顯示 index.html 畫面。
-當使用者用 GET 方法瀏覽網站首頁 / 時，會執行函式 login ，並回傳 index.html 這個模板頁面。
+        當使用者用 GET 方法瀏覽網站首頁 / 時，會執行函式 login ，並回傳 index.html 這個模板頁面。
 
 15-28 驗證使用者輸入的名稱，並將資料暫存進session，準備進入wp.html。
 15-16 使用者在index.html填寫表單並按下「Submit」按鈕後，資料以 POST 方法送到 /submit 這個路徑，並執行函式 submit。
-17 字串 time = 模組.類別.靜態方式:取得目前的日期和時間.把日期時間格式化成字串 (年-月-日 時:分:秒)。
-18 字串 name = 從index.html的form表單取得使用者輸入的 name。
+17 time = 按下「Submit」按鈕的日期、時間
+    字串 time = 模組.類別.靜態方式:取得目前的日期和時間.把日期時間格式化成字串 (年-月-日 時:分:秒)。
+18 
+    字串 name = 從index.html的form表單取得使用者輸入的 name。
 20-21 如果name的長度等於 0，會重新載入 index.html 頁面，並顯示hint !!!NAME!!!。
 23 用來檢查名稱是否已經被使用。
-字串 exist = 在資料表 userplay 中查詢是否有欄位 n 的值等於 name 的紀錄。
-如果找到，exist 會是該筆資料（字典）；如果沒找到，exist 會是 None。
+    字串 exist = 在資料表 userplay 中查詢是否有欄位 n 的值等於 name 的紀錄。
+    如果找到，exist 會是該筆資料（字典）；如果沒找到，exist 會是 None。
 24-25 如果exist有東西（exist 不為 None），就會重新載入 index.html 頁面，並顯示hint !!!名稱已存在，請重新輸入!!!
+
+27 session 物件以 temp_data 為 key，暫存的 time 和 name 為 value 。
+28 載入wp.html(玩遊戲)
+

@@ -36,7 +36,7 @@ def finish():
     session['temp_data'] = temp_data
 
     all_data = list(table.all())
-    if table.count() >=5:
+    if table.count() == 3 :
         max_level = max([int(i['fl']) for i in all_data])
         max_level_records = [i for i in all_data if int(i['fl']) == max_level]
         keep_record = max(max_level_records, key=lambda x: x['st'])

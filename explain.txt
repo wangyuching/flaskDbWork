@@ -19,18 +19,93 @@ url_for:根據函式名稱產生對應的 URL，方便管理路由。
 11-13 讓使用者進入首頁時，顯示 index.html 畫面。
         當使用者用 GET 方法瀏覽網站首頁 / 時，會執行函式 login ，並回傳 index.html 這個模板頁面。
 
-15-28 驗證使用者輸入的名稱，並將資料暫存進session，準備進入wp.html。
-15-16 使用者在index.html填寫表單並按下「Submit」按鈕後，資料以 POST 方法送到 /submit 這個路徑，並執行函式 submit。
-17 time = 按下「Submit」按鈕的日期、時間
-    字串 time = 模組.類別.靜態方式:取得目前的日期和時間.把日期時間格式化成字串 (年-月-日 時:分:秒)。
-18 
-    字串 name = 從index.html的form表單取得使用者輸入的 name。
-20-21 如果name的長度等於 0，會重新載入 index.html 頁面，並顯示hint !!!NAME!!!。
-23 用來檢查名稱是否已經被使用。
-    字串 exist = 在資料表 userplay 中查詢是否有欄位 n 的值等於 name 的紀錄。
-    如果找到，exist 會是該筆資料（字典）；如果沒找到，exist 會是 None。
-24-25 如果exist有東西（exist 不為 None），就會重新載入 index.html 頁面，並顯示hint !!!名稱已存在，請重新輸入!!!
+15-28 驗證使用者輸入的名稱，並將資料暫存進session，準備載入wp.html。
+    ▼
+    15-16 使用者在index.html填寫表單並按下「Submit」按鈕後，資料以 POST 方法送到 /submit 這個路徑，並執行函式 submit。
+    17 time = 按下「Submit」按鈕的日期、時間
+        字串 time = 模組.類別.靜態方式:取得目前的日期和時間.把日期時間格式化成字串 (年-月-日 時:分:秒)。
+    18 neme = 使用者輸入的 name
+        字串 name = 從index.html的form表單取得使用者輸入的 name。
+    20-21 如果name的長度等於 0，會重新載入 index.html 頁面，並顯示hint !!!NAME!!!。
 
-27 session 物件以 temp_data 為 key，暫存的 time 和 name 為 value 。
-28 載入wp.html(玩遊戲)
+    23 用來檢查名稱是否已經被使用。
+        字串 exist = 在資料表 userplay 中查詢是否有欄位 n 的值等於 name 的紀錄。
+        如果找到，exist 會是該筆資料（字典）；如果沒找到，exist 會是 None。
+    24-25 如果exist有東西（exist 不為 None），就會重新載入 index.html 頁面，並顯示hint !!!名稱已存在，請重新輸入!!!
 
+    27 session 物件以 temp_data 為 key，暫存的 time 和 name 為 value 。
+    28 載入wp.html(玩遊戲)
+    ▲
+
+30-49 遊戲結束時儲存wp.html完成的關卡(當資料表有 3 筆資料時，第 4 次結束時會保留一筆最高關卡且最早以及第 4 次的紀錄。)和session中暫存的資料導向 up.html。
+    ▼
+    30-31 使用者在wp.html按下「Submit」按鈕後，資料以 POST 方法送到 /finish 這個路徑，並執行函式 finish。
+    32 變數finishLevel = 取得使用者完成的關卡等級。
+
+    34 從 session 中取得 key 名為 'temp_data' 的資料，如果則回傳一個空的字典 {} 給字典 temp_data 。
+    35 把 finishLevel 的值，存進 temp_data 字典裡，key 是 'fl'。
+    36 更新後的 temp_data 字典，存回 session 裡，key 是 'temp_data'。
+
+    38 變數 all_data = 把 userplay 中的所有資料查詢出來，並轉成一個列表（list）。
+    39-45 當 userplay 裡有 3 筆資料時，新增第 4 筆前，只保留「最高關卡且最早」的那一筆，其餘刪除。
+        ▼
+        39 當 userplay 裡有 3 筆資料時
+        40 找出最大關卡值( max_level )。
+            max()
+            Python 內建函式，找出最大值。
+
+            [int(i['fl']) for i in all_data]
+            串列生成式（list comprehension）。
+
+            for i in all_data
+            對 all_data 這個列表裡的每一筆資料（每一筆都是字典）做處理。
+
+            i['fl']
+            取出每一筆資料裡 key 為 'fl' 的值（也就是完成的關卡數）。
+
+            int(i['fl'])
+            把這個值轉成整數（因為資料庫裡可能是字串）。
+            最後會產生一個所有關卡數的整數列表，例如 [2, 5, 3]。
+
+            max():對這個整數列表找出最大值。
+
+        41 fl 欄位值等於最大關卡值( max_level )的紀錄。
+            [i for i in all_data if int(i['fl']) == max_leve]
+            列表推導式，對於 all_data 裡的每一個元素 i，只要符合條件('fl' 欄位等於 max_level)就把 i 加進新列表」。
+
+            i for i in all_data
+            逐一取出 all_data 中的每一筆資料，暫時命名為 i，並對 i 都做以下事情。
+
+            if int(i['fl']) == max_level
+            只有當 i 這個元素的 'fl' 欄位（轉成整數後）等於 max_level 時，才把這個 i 包含進結果列表
+
+        42 找出 st 欄位最大（也就是最新）的那一筆資料。
+
+            從 max_level_records 列表中，找出 st 欄位最大（也就是最新）的那一筆資料，並將它指定給 keep_record 變數。
+
+            key=lambda x: x['st']
+            比較時，根據每個元素（字典）裡 'st' 這個欄位的值來判斷大小。
+
+            key:比較時要根據哪個欄位或條件。
+            lambda x: x['st']:匿名函式(lambda 函式)，意思是「給我一個變數 x，回傳 x['st'] 的值」。
+            x:字典，傳進來的每一個元素
+            x['st']:取出字典 x 裡 key 為 'st' 的值。
+
+        43-45 只保留 keep_record 這一筆紀錄，其餘的全部刪除。
+            ▼
+            43 遍歷 all_data 裡的每一筆資料。
+            44 如果資料的 id 不等於 keep_record 的 id。
+            45 刪除userplay中 id = record['id']的資料。
+            ▲
+        ▲
+    47 把字典 temp_data （包含使用者名稱、時間、完成關卡等資料）新增（插入）到 userplay 裡。
+
+    49 重新導向（redirect）到 /up 。
+    ▲
+
+51-54 up.html顯示所有紀錄的頁面。
+    51-52 當使用者以 GET 方法訪問 /up 時，會執行 up() 這個函式。
+    53 從 userplay 查詢所有資料，存到 datas 變數。
+    54 把 datas 傳給 up.html ，然後產生網頁並回傳給使用者。
+
+56-57 

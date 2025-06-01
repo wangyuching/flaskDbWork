@@ -21,7 +21,7 @@
                 <button id="play-button" style="margin-left: 20px;">Play</button><br>
                 完成的試管：<span id="completed-tubes-count">0</span>
             </p>
-            <form action="/finish" method="post">
+            <form action="/finish" method="post"><!-- 按下送出（Submit）按鈕時，表單資料會以 POST 方法送到 '/finish' 這個路徑。-->
                 <p>完成的關卡：<span id="finish-level" name="finish-level">0</span></p>
                 <input type="hidden" id="finish-level-input" name="finish-level-input" value="0">
                 <button type="submit">不想玩了</button>
